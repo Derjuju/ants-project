@@ -5,6 +5,7 @@
 	<title>Ants</title>
 	<script src="phaser-ce/2.9.4/phaser.min.js"></script>
 	<script src="js/ant.js"></script>
+	<script src="js/fonctions.js"></script>
 	<style type="text/css">
 		body {
 			margin: 0;
@@ -14,87 +15,6 @@
 <body>
 
 <script type="text/javascript">
-
-var game = new Phaser.Game(1000, 640, Phaser.CANVAS, '', { preload: preload, create: create, update: update, render: render });
-
-var scores = {'brown':0,'red':0,'yellow':0,'black':0};
-var scoreLabelBrown, scoreLabelRed, scoreLabelYellow, scoreLabelBlack;
-var scoreTextBrown, scoreTextRed, scoreTextYellow, scoreTextBlack;
-
-var tickWorld = 0;
-
-var map;
-var spriteLayer;
-
-var antBrown;
-var ants = [];
-
-function preload () {	
-	// charge map
-	game.load.tilemap('map01', 'assets/tilemaps/maps/map01.json', null, Phaser.Tilemap.TILED_JSON);
-	game.load.image('map-tiles', 'assets/tilemaps/tiles/background-map01.png');
-	// charge sprites
-    game.load.spritesheet('ant', 'assets/sprites/ants-spritesheet.png',32,32,-1,1,1); // key, sourcefile, framesize x, framesize y
-}
-
-function create () {	
-	// la carte
-	map = game.add.tilemap('map01');
-	map.addTilesetImage('Map01', 'map-tiles');
-	layer = map.createLayer('Ground');
-	layer.resizeWorld();
-	layer.position.set(100, 0);
-	layer.fixedToCamera = false;
-	
-	spriteLayer = game.add.group();
-	spriteLayer.position.set(100, 0);
-	
-		
-	/*ant = game.add.sprite(0, 0, 'ant'); //create and position player
-	ant.animations.add('walkVertical', [0,1,2], 10, true);  // (key, framesarray, fps,repeat)
-	ant.animations.add('walkHorizontal', [8,9,10], 10, true);  // (key, framesarray, fps,repeat)
-	
-	ant.animations.play('walkHorizontal');
-	ant.direction = "right";*/
-	
-	scoreLabelBrown = game.add.text(0, 0, 'score', { fontSize: '20px', fill: '#996530', boundsAlignH: "center", boundsAlignV: "middle" });
-	scoreLabelBrown.setTextBounds(0, 0, 100, 20);
-	scoreLabelRed = game.add.text(0, 0, 'score', { fontSize: '20px', fill: '#f00', boundsAlignH: "center", boundsAlignV: "middle" });
-	scoreLabelRed.setTextBounds(900, 0, 100, 20);
-	scoreLabelYellow = game.add.text(0, 0, 'score', { fontSize: '20px', fill: '#FF9900', boundsAlignH: "center", boundsAlignV: "middle" });
-	scoreLabelYellow.setTextBounds(900, 600, 100, 20);
-	scoreLabelBlack = game.add.text(0, 0, 'score', { fontSize: '20px', fill: '#fff', boundsAlignH: "center", boundsAlignV: "middle" });
-	scoreLabelBlack.setTextBounds(0, 600, 100, 20);
-	
-	scoreTextBrown = game.add.text(0, 0, scores.brown, { fontSize: '20px', fill: '#996530', boundsAlignH: "center", boundsAlignV: "middle" });
-	scoreTextBrown.setTextBounds(0, 20, 100, 20);
-	scoreTextRed = game.add.text(0, 0, scores.red, { fontSize: '20px', fill: '#f00', boundsAlignH: "center", boundsAlignV: "middle" });
-	scoreTextRed.setTextBounds(900, 20, 100, 20);
-	scoreTextYellow = game.add.text(0, 0, scores.yellow, { fontSize: '20px', fill: '#FF9900', boundsAlignH: "center", boundsAlignV: "middle" });
-	scoreTextYellow.setTextBounds(900, 620, 100, 20);
-	scoreTextBlack = game.add.text(0, 0, scores.black, { fontSize: '20px', fill: '#fff', boundsAlignH: "center", boundsAlignV: "middle" });
-	scoreTextBlack.setTextBounds(0, 620, 100, 20);
-	
-	scores.brown++;
-	scoreTextBrown.setText(scores.brown);
-	
-	/*antBrown = new Ant(game, 1 * 16, 1 * 16, {
-		"orientation" : "right",
-		"speed" : 2
-	});*/
-	//antBrown = new Ant(game, 1 * 16, 1 * 16, {});
-	//game.add.existing(antBrown);
-	
-	// lance première résolution de l'état du monde
-	resolveWorldState();
-
-}
-
-function update() {
-}
-
-function render () {
-}
 
 
 
@@ -134,131 +54,7 @@ function resolveXYFromGridCell(cellX, cellY) {
 	return {x,y};
 }
 
-var worldHistory = [
-	{
-		'ants' : [
-			{
-				'id' : 1,
-				'family' : 'brown',				
-				'type' : 'normal',
-				'life' : 10,
-				'move' : null,
-				'action' : {
-					'type' : 'spawn',
-					'position' : [1,1]
-				}
-			}
-		]
-	},
-	{
-		'ants' : [
-			{
-				'id' : 1,
-				'family' : 'brown',				
-				'type' : 'normal',
-				'life' : 10,
-				'move' : [2,1],
-				'action' : null
-			},
-			{
-				'id' : 2,
-				'family' : 'yellow',				
-				'type' : 'normal',
-				'life' : 10,
-				'move' : null,
-				'action' : {
-					'type' : 'spawn',
-					'position' : [25,20]
-				}
-			}
-		]
-	},
-	{
-		'ants' : [
-			{
-				'id' : 1,
-				'family' : 'brown',				
-				'type' : 'normal',
-				'life' : 10,
-				'move' : [3,1],
-				'action' : null
-			},
-			{
-				'id' : 2,
-				'family' : 'yellow',				
-				'type' : 'normal',
-				'life' : 10,
-				'move' : [24,20],
-				'action' : null
-			},
-			{
-				'id' : 3,
-				'family' : 'red',				
-				'type' : 'normal',
-				'life' : 10,
-				'move' : null,
-				'action' : {
-					'type' : 'spawn',
-					'position' : [25,1]
-				}
-			}
-		]
-	},
-	{
-		'ants' : [
-			{
-				'id' : 1,
-				'family' : 'brown',				
-				'type' : 'normal',
-				'life' : 10,
-				'move' : [3,2],
-				'action' : null
-			},
-			{
-				'id' : 2,
-				'family' : 'yellow',				
-				'type' : 'normal',
-				'life' : 10,
-				'move' : [23,20],
-				'action' : null
-			},
-			{
-				'id' : 3,
-				'family' : 'red',				
-				'type' : 'normal',
-				'life' : 10,
-				'move' : [24,1],
-				'action' : null
-			}
-		]
-	},
-	{
-		'ants' : [
-			{
-				'id' : 1,
-				'family' : 'brown',				
-				'type' : 'normal',
-				'life' : 10,
-				'move' : [3,3],
-				'action' : {
-					'type' : 'death'
-				}
-			},
-			{
-				'id' : 2,
-				'family' : 'yellow',				
-				'type' : 'normal',
-				'life' : 10,
-				'move' : [23,19],
-				'action' : {
-					'type' : 'death'
-				}
-			}
-		]
-	}
-];
 
-var nbreSpritesToWait = 0;
 function getNextTick() {
 	console.log("----------------- getNextTick -----------------");
 	tickWorld++;	
@@ -320,6 +116,17 @@ function antIsKilled(ant) {
 }
 
 </script>
+<table style="float:right;">
+	<tr>
+		<td>
+			<select name="gameChoice" id="gameChoice">
+				<option value="1">1</option>				
+			</select>
+		</td>
+		<td><input type="button" value="charge" onClick="loadGame();"></td>
+		<td></td>
+	</tr>
+</table>
 <!--
 <table style="float:right;">
 	<tr>
@@ -344,5 +151,6 @@ function antIsKilled(ant) {
 	</tr>
 </table>
 //-->
+<div id="GameZone" style="width:1000px;height:672px;background-color:#000;"></div>
 </body>
 </html>
