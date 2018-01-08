@@ -20,6 +20,9 @@ var spriteLayer;
 
 // ETAT DU JEU
 var tickWorld = 0;
+var tickStep, tickStepTotal = 0;
+var worldSpeed = 100;
+var worldState = null;
 var nbreSpritesToWait = 0;
 var scores = {'brown':0,'red':0,'yellow':0,'black':0};
 // référence aux ants générées
@@ -64,6 +67,8 @@ function initialiseNewGame()
 	scores.red = 0;
 	scores.yellow = 0;
 	scores.black = 0;
+	ants = [];
+	tickWorld = tickStep = tickStepTotal = 0;
 	game = new Phaser.Game(1000, 672, Phaser.CANVAS, 'GameZone', { preload: preload, create: create, update: update, render: render });
 }
 
@@ -98,20 +103,31 @@ function create () {
 	
 	initialiseUI();
 
-	scores.brown++;
-	scoreTextBrown.setText(scores.brown);	
+	//scores.brown++;
+	//scoreTextBrown.setText(scores.brown);	
 	
 	// on se débarasse du json
 	historicJson = null;
 		
 	// lance première résolution de l'état du monde
-	resolveWorldState();
+	resolveWorldTick();
 }
+
+function update() {
+}
+
+function render () {
+}
+
+
+/*
+* UI
+*/
 function initialiseUI()
 {
 	for(var i = 0; i< worldHistoryStatus.opponents.length; i++)
 	{
-		switch (worldHistoryStatus.opponents[i])
+		switch (worldHistoryStatus.opponents[i].family)
 		{
 			case "brown" : 
 							scoreLabelBrown = game.add.text(0, 0, 'score', { fontSize: '20px', fill: '#996530', boundsAlignH: "center", boundsAlignV: "middle" });
@@ -141,12 +157,92 @@ function initialiseUI()
 	}	
 }
 
-function update() {
+/*
+* paramétrage du rendu
+*/
+function defineWorldSpeed() {
+	worldSpeed = document.getElementById('gameSpeed').value;
 }
-
-function render () {
+function getWorldAnimationSpeed() {
+	return worldSpeed;
 }
-
+/*
+* Moteurs de Ticks
+*/
+function resolveWorldTick() {
+	console.log("resolveWorldTick : "+tickWorld);
+	if (worldHistory[tickWorld] != undefined) {
+		worldState = worldHistory[tickWorld];
+		if (worldState.ants != undefined) {
+			tickStep = 0;
+			tickStepTotal = worldState.ants.length;
+			resolveTickStep();
+		} else {
+			console.log("tick vide");
+			getNextTick();
+		}
+	} else {
+		console.log("fin de l'histoire");
+	}
+}
+function resolveTickStep() {
+	console.log("resolveTickStep : ["+tickWorld+"]["+tickStep+"/"+tickStepTotal+"]");
+	if (tickStep < tickStepTotal) {
+		var ant = worldState.ants[tickStep];
+		// résolution des naissances
+		if (ant.action != undefined && ant.action.type == "spawn") {
+			var newAnt = new Ant(game, (ant.action.position[0] * 32 - 16), (ant.action.position[1] * 32 - 16), {
+				"id" : ant.id,
+				"family" : ant.family,
+				"type" : ant.type,
+				"life" : ant.life
+			});	
+			ants.push(newAnt);
+			spriteLayer.add(newAnt);
+			newAnt.events.onKilled.add(antIsKilled, this);
+		}
+		else {
+			// retrouve la bonne fourmi et affecte lui son état
+			/*for(var j=0; j<ants.length; j++) {
+				if (ants[j].id == ant.id) {
+					ants[j].updateState(ant);
+					break;
+				}
+			}*/
+			var antToUpdate = ants.find( function(element) { return (element.id == ant.id); });
+			if (antToUpdate != undefined) {
+				antToUpdate.updateState(ant);
+			}
+		}
+	} else {
+		console.log("fin des ticks");
+		getNextTick();
+	}
+}
+function antIsKilled(ant) {
+	for(var j=0; j<ants.length; j++) {
+		if (ants[j].id == ant.id) {
+			ants.splice(j,1);
+			// détruit pour libération de la mémoire
+			ant.destroy();
+			break;
+		}
+	}		
+}
+function getNextTick() {
+	console.log("----------------- getNextTick -----------------");
+	tickWorld++;	
+	resolveWorldTick();
+}
+function getNextTickStep() {
+	console.log("----------------- getNextTickStep -----------------");
+	tickStep++;
+	// temporisation
+	setTimeout(resolveTickStep,1);
+}
+function spriteTourHasEnded() {
+	getNextTickStep();
+}
 /*
 * Toolbox
 */

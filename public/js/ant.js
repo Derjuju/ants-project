@@ -137,7 +137,7 @@ Ant.prototype.makeMove = function() {
 	var tweenObject = game.add.tween(this).to({
 			x: newPositionX,
 			y: newPositionY
-		}, 500, Phaser.Easing.Linear.None, true, 0, 0, false);
+		}, getWorldAnimationSpeed(), Phaser.Easing.Linear.None, true, 0, 0, false);
 	tweenObject.onComplete.add(this.makeMoveOnComplete, this);
 }
 // gestion fin de mouvement
@@ -166,7 +166,8 @@ Ant.prototype.resolveAction = function() {
 
 Ant.prototype.annonceFinDeTour = function() {
 	console.log("annonceFinDeTour : ant n°"+this.id);
-	var mySignal = new Phaser.Signal();
+	/*var mySignal = new Phaser.Signal();
 	mySignal.add(spriteTourHasEnded, this);
-	mySignal.dispatch();
+	mySignal.dispatch();*/
+	spriteTourHasEnded();
 }

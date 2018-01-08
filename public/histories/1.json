@@ -27,7 +27,7 @@
 					}
 				],
 				"end": {
-					"ticks": 4,
+					"ticks": 6,
 					"result": 1,
 					"victory": "brown",
 					"scores": [
@@ -212,6 +212,64 @@
 							"action": {
 								"type" : "death"
 							}
+						}
+					]
+				},
+				{
+					"tick": 5,
+					"ants" : [
+						{
+							"id": 1,
+							"family": "brown",				
+							"type": "normal",
+							"life": 10,
+							"move": [2,3],
+							"action": null
+						},
+						{
+							"id": 2,
+							"family": "red",				
+							"type": "normal",
+							"life": 10,
+							"move": [23,3],
+							"action": null
+						},
+						{
+							"id": 3,
+							"family": "yellow",				
+							"type": "normal",
+							"life": 10,
+							"move": [23,19],
+							"action": null
+						}
+					]
+				},
+				{
+					"tick": 6,
+					"ants" : [
+						{
+							"id": 1,
+							"family": "brown",				
+							"type": "normal",
+							"life": 10,
+							"move": [3,3],
+							"action": null
+						},
+						{
+							"id": 2,
+							"family": "red",				
+							"type": "normal",
+							"life": 10,
+							"move": [23,4],
+							"action": null
+						},
+						{
+							"id": 3,
+							"family": "yellow",				
+							"type": "normal",
+							"life": 10,
+							"move": [23,18],
+							"action": null
 						}
 					]
 				}
