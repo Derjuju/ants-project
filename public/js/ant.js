@@ -36,7 +36,7 @@ Ant = function (game, x, y, options) {
 		}
 	}
 	
-	this.destination = {x,y};
+	this.destination = {'x':0,'y':0};
 	this.destination.x = x;
 	this.destination.y = y;
 	
