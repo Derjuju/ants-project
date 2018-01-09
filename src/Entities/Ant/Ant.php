@@ -2,8 +2,7 @@
 
 namespace AntsProject\Entities\Ant;
 
-use AntsProject\Entities\LifeEntityTrait;
-use AntsProject\Entities\LivingEntityInterface;
+use AntsProject\Entities\LivingEntity;
 
 /**
  * Created by PhpStorm.
@@ -12,22 +11,79 @@ use AntsProject\Entities\LivingEntityInterface;
  * Time: 16:43
  * Copyright: © Cora 2018
  */
-class Ant implements LivingEntityInterface
+class Ant extends LivingEntity
 {
-    use LifeEntityTrait;
     
-    /** @var  int $id */
-    private $id;
     /** @var  string $family */
     protected $family;
     /** @var  string $type */
     protected $type;
     
-    
+    /**
+     * Ant constructor.
+     */
     public function __construct()
     {
-        $this->family = null;
+        parent::__construct();
+        
         $this->type = 'normal';
         $this->setLifePoints(10);
+        $this->setPower(2);
+        $this->setDefense(0);
+        $this->setSpeed(10);
+    }
+    
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->getInstanceId();
+    }
+    
+    /**
+     * @return string
+     */
+    public function getFamily(): string
+    {
+        return $this->family;
+    }
+    
+    /**
+     * @param string $family
+     * @return Ant
+     */
+    public function setFamily(string $family)
+    {
+        $this->family = $family;
+        return $this;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+    
+    /**
+     * @param string $type
+     * @return Ant
+     */
+    public function setType(string $type)
+    {
+        $this->type = $type;
+        return $this;
+    }
+    
+    public function attack($target)
+    {
+        if ($target instanceof LivingEntity) {
+            $damage = $this->getPower() - $target->getDefense();
+            if ($damage > 0) {
+                $target->looseLife($damage);
+            }
+        }
     }
 }
