@@ -1,0 +1,12 @@
+https://en.wikipedia.org/wiki/Dijkstra's_algorithm
+https://en.wikipedia.org/wiki/A*_search_algorithm
+https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm
+https://en.wikipedia.org/wiki/Euclidean_shortest_path
+https://en.wikipedia.org/wiki/Flood_fill
+https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm
+https://en.wikipedia.org/wiki/Johnson%27s_algorithm
+https://en.wikipedia.org/wiki/Longest_path_problem
+https://en.wikipedia.org/wiki/Any-angle_path_planning
+https://en.wikipedia.org/wiki/D*
+
+https://www.jeuweb.org/showthread.php?tid=7921

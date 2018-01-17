@@ -7,7 +7,6 @@ namespace AntsProject\Entities;
  * User: jconseil
  * Date: 08/01/2018
  * Time: 16:52
- * Copyright: © Cora 2018
  */
 interface LivingEntityInterface
 {

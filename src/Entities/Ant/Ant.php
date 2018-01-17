@@ -9,7 +9,6 @@ use AntsProject\Entities\LivingEntity;
  * User: jconseil
  * Date: 08/01/2018
  * Time: 16:43
- * Copyright: © Cora 2018
  */
 class Ant extends LivingEntity
 {

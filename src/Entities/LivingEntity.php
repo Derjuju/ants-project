@@ -4,7 +4,6 @@
  * User: jconseil
  * Date: 09/01/2018
  * Time: 11:56
- * Copyright: © Cora 2018
  */
 
 namespace AntsProject\Entities;
