@@ -60,7 +60,7 @@ class Map
      * @param int $niveau
      * @param int $nbreJoueurs
      */
-    public function initialiseMapNiveau($niveau = 1, $nbreJoueurs = 2)
+    public function initialiseMapNiveau(int $niveau = 1, int $nbreJoueurs = 2)
     {
         // intégrité de la valeur de niveau
         if ($niveau < 1) $niveau = 1;

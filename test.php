@@ -20,4 +20,8 @@ echo $ants[1]->getLifePoints();
 */
 
 $app = new \App\Application();
-$app->initialise();
+$configGame = new \App\ConfigGame();
+$configGame->setNbreJoueurs(4);
+$configGame->setNiveau(1);
+$app->initialise($configGame);
+$app->processGame();
